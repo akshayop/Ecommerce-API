@@ -3,6 +3,9 @@ const app = express(); //creating express app instance
 const port = 8000; //port number where our server will run
 const db = require('./config/mongoose'); //Importing db from config
 
+// use express router
+app.use('/', require('./routes'));
+
 
 // Hosting the server and handling the error in case of any problem occurs while hosting
 app.listen(port, (err) => {
