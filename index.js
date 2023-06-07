@@ -1,6 +1,7 @@
 const express = require('express'); //Importing express library
 const app = express(); //creating express app instance
-const port = 8000; //port number where our server will run
+require('dotenv').config();
+const port = process.env.PORT || 4000; //port number where our server will run
 const db = require('./config/mongoose'); //Importing db from config
 
 // to parse the body request
