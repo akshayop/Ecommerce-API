@@ -5,6 +5,7 @@ const productController = require('../../../controllers/api/v1/product_controlle
 router.get('/', productController.allProduct); // displaying all the products
 router.post('/create-product', productController.createProduct); //creating a new product
 router.post('/:id/update-quantity', productController.updateQuantity); //updating a product with the givenid to the given amount
+router.delete('/:id', productController.deleteProduct); //deleting a product product with the given id
 
 
 module.exports = router;

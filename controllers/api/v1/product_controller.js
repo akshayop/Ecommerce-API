@@ -24,6 +24,8 @@ module.exports.createProduct = async (req, res) => {
     }
 }
 
+// toget all the product from db
+
 module.exports.allProduct = async (req, res) => {
 
     try {
@@ -57,6 +59,8 @@ module.exports.allProduct = async (req, res) => {
     }
 }
 
+
+// to update the product in db
 module.exports.updateQuantity = async (req, res) => {
     try {
         // fetching the products by id
@@ -101,5 +105,43 @@ module.exports.updateQuantity = async (req, res) => {
             message: "Error in updating Quantity"
         });
         
+    }
+}
+
+// deleting selected product from db
+module.exports.deleteProduct = async (req, res) => {
+
+    try {
+
+        // fetching product from db and deleting it
+        const product = await Product.findOneAndDelete(req.params.id);
+
+        if(!product) {
+            // throws error
+
+            return res.status(404).json({
+                message: "Product not found"
+            });
+        }
+
+        return res.status(200).json({
+            data: {
+                product: {
+                    id: product.id,
+                    name: product.name,
+                    quantity: product.quantity
+                }
+            },
+
+            message: "Product deleted....!"
+        });
+
+    }catch (err) {
+        console.log('error',err); //to display error in console
+
+        // throw error on failure 
+        return res.status(500).json({
+            message: "Error in deleting product"
+        });
     }
 }
