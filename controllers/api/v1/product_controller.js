@@ -4,15 +4,27 @@ const Product = require('../../../models/product'); //importing product model
 module.exports.createProduct = async (req, res) => {
     try {
 
-        const product = await Product.create(req.body);
+        const checkProduct = await Product.findOne({name: req.body.name}); //find the user by name 
 
-        return res.status(200).json({
-            data: {
-                name: product.name,
-                quantity: product.quantity
-            },
-            message: "Product added...!"
-        })
+        // if not found
+
+        if(!checkProduct) {
+            const product = await Product.create(req.body);
+
+            return res.status(200).json({
+                data: {
+                    name: product.name,
+                    quantity: product.quantity
+                },
+                message: "Product added...!"
+            })
+        } else {
+
+            return res.status(200).json({
+                message: "Product already exists ...!"
+            })
+
+        }
 
     }catch (err) {
         console.log('error',err); //to display error in console
@@ -114,7 +126,7 @@ module.exports.deleteProduct = async (req, res) => {
     try {
 
         // fetching product from db and deleting it
-        const product = await Product.findOneAndDelete(req.params.id);
+        const product = await Product.findByIdAndDelete(req.params.id);
 
         if(!product) {
             // throws error
